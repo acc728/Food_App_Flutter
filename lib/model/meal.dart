@@ -24,40 +24,40 @@ class MealsResponse {
 class Meal {
   String idMeal;
   String strMeal;
-  String strCategory;
-  String strArea;
-  String strInstructions;
+  String? strCategory;
+  String? strArea;
+  String? strInstructions;
   String strMealThumb;
-  String strYoutube;
-  String strIngredient1;
-  String strIngredient2;
-  String strIngredient3;
-  String strIngredient4;
-  String strIngredient5;
-  String strMeasure1;
-  String strMeasure2;
-  String strMeasure3;
-  String strMeasure4;
-  String strMeasure5;
+  String? strYoutube;
+  String? strIngredient1;
+  String? strIngredient2;
+  String? strIngredient3;
+  String? strIngredient4;
+  String? strIngredient5;
+  String? strMeasure1;
+  String? strMeasure2;
+  String? strMeasure3;
+  String? strMeasure4;
+  String? strMeasure5;
 
   Meal(
       {required this.idMeal,
       required this.strMeal,
-      required this.strCategory,
-      required this.strArea,
-      required this.strInstructions,
+      this.strCategory,
+      this.strArea,
+      this.strInstructions,
       required this.strMealThumb,
-      required this.strYoutube,
-      this.strIngredient1 = "",
-      this.strIngredient2 = "",
-      this.strIngredient3 = "",
-      this.strIngredient4 = "",
-      this.strIngredient5 = "",
-      this.strMeasure1 = "",
-      this.strMeasure2 = "",
-      this.strMeasure3 = "",
-      this.strMeasure4 = "",
-      this.strMeasure5 = ""});
+      this.strYoutube,
+      this.strIngredient1,
+      this.strIngredient2,
+      this.strIngredient3,
+      this.strIngredient4,
+      this.strIngredient5,
+      this.strMeasure1,
+      this.strMeasure2,
+      this.strMeasure3,
+      this.strMeasure4,
+      this.strMeasure5});
 
   factory Meal.fromMap(Map<String, dynamic> json) => Meal(
       idMeal: json["idMeal"],

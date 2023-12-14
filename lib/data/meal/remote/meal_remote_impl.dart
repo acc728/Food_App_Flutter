@@ -14,8 +14,8 @@ class MealRemoteImpl {
     try {
       final response = await _networkClient.dio
           .get(NetworkConstants.MEAL_BY_ID_PATH, queryParameters: {"i": id});
-      final mealsResponse = response.data as MealsResponse;
-      return mealsResponse.meals[0];
+
+      return Meal.fromMap(response.data);
     } catch (e) {
       throw RemoteErrorMapper.getException(e);
     }
@@ -26,8 +26,8 @@ class MealRemoteImpl {
       final response = await _networkClient.dio.get(
           NetworkConstants.MEAL_BY_NAME_PATH,
           queryParameters: {"s": name});
-      final mealsResponse = response.data as MealsResponse;
-      return mealsResponse.meals;
+
+      return MealsResponse.fromMap(response.data).meals;
     } catch (e) {
       throw RemoteErrorMapper.getException(e);
     }
@@ -37,9 +37,7 @@ class MealRemoteImpl {
     try {
       final response =
           await _networkClient.dio.get(NetworkConstants.MEAL_CATEGORIES_PATH);
-      final categoriesResponse = response.data["categories"];
-      final result = categoriesResponse as CategoriesResponse;
-      return categoriesResponse.categories;
+      return CategoriesResponse.fromMap(response.data).categories;
     } catch (e) {
       throw RemoteErrorMapper.getException(e);
     }
@@ -50,8 +48,7 @@ class MealRemoteImpl {
       final response = await _networkClient.dio.get(
           NetworkConstants.MEAL_LIST_BY_CATEGORY_PATH,
           queryParameters: {"c": category});
-      final mealsResponse = response.data as MealsResponse;
-      return mealsResponse.meals;
+      return MealsResponse.fromMap(response.data).meals;
     } catch (e) {
       throw RemoteErrorMapper.getException(e);
     }
@@ -61,8 +58,7 @@ class MealRemoteImpl {
     try {
       final response =
           await _networkClient.dio.get(NetworkConstants.RANDOM_MEAL_PATH);
-      final mealsResponse = response.data as MealsResponse;
-      return mealsResponse.meals[0];
+      return Meal.fromMap(response.data);
     } catch (e) {
       throw RemoteErrorMapper.getException(e);
     }
