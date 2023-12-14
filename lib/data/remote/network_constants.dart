@@ -1,5 +1,5 @@
 class NetworkConstants {
-  static const BASE_URL = "www.themealdb.com/api/json/v1/1";
+  static const BASE_URL = "https://www.themealdb.com/api/json/v1/1";
 
   static const MEAL_BY_NAME_PATH = "$BASE_URL/search.php"; //query parameter "s"
   static const MEAL_BY_ID_PATH = "$BASE_URL/lookup.php"; //query parameter "i"
