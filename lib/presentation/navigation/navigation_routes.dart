@@ -1,4 +1,5 @@
 import 'package:food_app/presentation/view/categories/categories_page.dart';
+import 'package:food_app/presentation/view/home/home_page.dart';
 import 'package:food_app/presentation/view/meal_list/meal_list_page.dart';
 import 'package:food_app/presentation/view/splash/splash_page.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +7,7 @@ import 'package:go_router/go_router.dart';
 class NavigationRoutes {
   // Routes
   static const String SPLASH_ROUTE = "/";
+  static const String HOME_ROUTE = "/home";
   static const String MEAL_CATEGORIES_ROUTE = "/meal-categories";
   static const String CATEGORY_MEAL_LIST_ROUTE =
       "$MEAL_CATEGORIES_ROUTE/$_MEAL_LIST_PATH";
@@ -19,6 +21,9 @@ final GoRouter router =
   GoRoute(
       path: NavigationRoutes.SPLASH_ROUTE,
       builder: (context, state) => const SplashPage()),
+  GoRoute(
+      path: NavigationRoutes.HOME_ROUTE,
+      builder: (context, state) => const HomePage()),
   GoRoute(
       path: NavigationRoutes.MEAL_CATEGORIES_ROUTE,
       builder: (context, state) => const CategoriesPage(),
