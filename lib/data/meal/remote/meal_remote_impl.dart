@@ -1,8 +1,8 @@
 import 'package:food_app/data/remote/error/remote_error_mapper.dart';
 import 'package:food_app/data/remote/network_client.dart';
 import 'package:food_app/data/remote/network_constants.dart';
-import 'package:food_app/model/category.dart';
 import 'package:food_app/model/meal.dart';
+import 'package:food_app/model/meal_category.dart';
 
 class MealRemoteImpl {
   final NetworkClient _networkClient;

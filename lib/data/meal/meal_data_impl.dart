@@ -1,7 +1,7 @@
 import 'package:food_app/data/meal/remote/meal_remote_impl.dart';
 import 'package:food_app/domain/meals_repository.dart';
-import 'package:food_app/model/category.dart';
 import 'package:food_app/model/meal.dart';
+import 'package:food_app/model/meal_category.dart';
 
 class MealDataImpl extends MealRepository {
   final MealRemoteImpl _remoteImpl;

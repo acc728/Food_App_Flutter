@@ -1,5 +1,5 @@
-import 'package:food_app/model/category.dart';
 import 'package:food_app/model/meal.dart';
+import 'package:food_app/model/meal_category.dart';
 
 abstract class MealRepository {
   Future<Meal> getRandomMeal();

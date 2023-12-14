@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:food_app/domain/meals_repository.dart';
-import 'package:food_app/model/category.dart';
+import 'package:food_app/model/meal_category.dart';
 import 'package:food_app/model/resource_state.dart';
 
 typedef CategoriesState = ResourceState<List<MealCategory>>;

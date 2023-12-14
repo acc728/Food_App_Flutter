@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/di/app_modules.dart';
-import 'package:food_app/presentation/view/home/home_page.dart';
+import 'package:food_app/presentation/view/splash/splash_page.dart';
 
 void main() {
   AppModules().setup(); // Inyección de dependencias - guardadas en inject
@@ -12,6 +12,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: HomePage());
+    return const MaterialApp(home: SplashPage());
   }
 }

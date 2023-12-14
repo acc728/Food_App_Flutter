@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/di/app_modules.dart';
-import 'package:food_app/model/category.dart';
+import 'package:food_app/model/meal_category.dart';
 import 'package:food_app/model/resource_state.dart';
-import 'package:food_app/presentation/view/home/viewmodel/home_view_model.dart';
+import 'package:food_app/presentation/view/categories/viewmodel/home_view_model.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class CategoriesPage extends StatefulWidget {
+  const CategoriesPage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CategoriesPage> createState() => _CategoriesPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _CategoriesPageState extends State<CategoriesPage> {
   final HomeViewModel _homeViewModel = inject<HomeViewModel>();
   List<MealCategory> _categories = [];
 
@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Categories"),
         centerTitle: true,
       ),
       body: SafeArea(

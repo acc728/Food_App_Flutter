@@ -2,7 +2,7 @@ import 'package:food_app/data/meal/meal_data_impl.dart';
 import 'package:food_app/data/meal/remote/meal_remote_impl.dart';
 import 'package:food_app/data/remote/network_client.dart';
 import 'package:food_app/domain/meals_repository.dart';
-import 'package:food_app/presentation/view/home/viewmodel/home_view_model.dart';
+import 'package:food_app/presentation/view/categories/viewmodel/home_view_model.dart';
 import 'package:food_app/presentation/view/meal_list/viewmodel/meal_list_view_model.dart';
 import 'package:get_it/get_it.dart';
 

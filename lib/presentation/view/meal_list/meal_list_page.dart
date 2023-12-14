@@ -7,7 +7,9 @@ import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
 
 class MealListPage extends StatefulWidget {
-  const MealListPage({super.key});
+  const MealListPage({super.key, required this.category});
+
+  final String category;
 
   @override
   State<MealListPage> createState() => _MealListPageState();
@@ -16,7 +18,6 @@ class MealListPage extends StatefulWidget {
 class _MealListPageState extends State<MealListPage> {
   final MealListViewModel _mealListViewModel = inject<MealListViewModel>();
   List<Meal> _mealListByCategory = [];
-  final String _category = "Seafood";
 
   @override
   void initState() {
@@ -36,13 +37,13 @@ class _MealListPageState extends State<MealListPage> {
         case Status.ERROR:
           LoadingView.hide();
           ErrorView.show(context, state.exception!.toString(), () {
-            _mealListViewModel.fetchMealListByCategory(_category);
+            _mealListViewModel.fetchMealListByCategory(widget.category);
           });
           break;
       }
     });
 
-    _mealListViewModel.fetchMealListByCategory(_category);
+    _mealListViewModel.fetchMealListByCategory(widget.category);
   }
 
   @override
@@ -50,7 +51,7 @@ class _MealListPageState extends State<MealListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: const Text("Foods"),
         centerTitle: true,
       ),
       body: SafeArea(
