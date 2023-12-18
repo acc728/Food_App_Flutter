@@ -5,6 +5,7 @@ import 'package:food_app/model/resource_state.dart';
 import 'package:food_app/presentation/view/meal_list/viewmodel/meal_list_view_model.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
+import 'package:food_app/presentation/widget/meal_row/meal_row.dart';
 
 class MealListPage extends StatefulWidget {
   const MealListPage({super.key, required this.category});
@@ -50,17 +51,20 @@ class _MealListPageState extends State<MealListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.category),
+        elevation: 0,
         centerTitle: true,
+        title: Text(
+          widget.category,
+          style: const TextStyle(
+              fontSize: 24.0, fontWeight: FontWeight.w900, color: Colors.black),
+        ),
       ),
       body: SafeArea(
         child: ListView.builder(
             itemCount: _mealListByCategory.length,
             itemBuilder: (_, index) {
               final meal = _mealListByCategory[index];
-              return ListTile(
-                title: Text(meal.strMeal),
-              );
+              return MealRow(meal: meal);
             }),
       ),
     );

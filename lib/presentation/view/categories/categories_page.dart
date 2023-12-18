@@ -3,7 +3,7 @@ import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/model/meal_category.dart';
 import 'package:food_app/model/resource_state.dart';
 import 'package:food_app/presentation/view/categories/viewmodel/categories_view_model.dart';
-import 'package:food_app/presentation/view/meal_list/meal_list_page.dart';
+import 'package:food_app/presentation/widget/category_row/category_row.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
 
@@ -49,25 +49,47 @@ class _CategoriesPageState extends State<CategoriesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        //HACER GRID VIEW
-        child: ListView.builder(
-            itemCount: _categories.length,
-            itemBuilder: (_, index) {
-              final category = _categories[index];
-              return Card(
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return MealListPage(category: category.strCategory);
-                    }));
-                  },
-                  child: Center(
-                    child: Text(category.strCategory),
-                  ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 10, left: 10),
+              child: Text(
+                'Categories',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w900,
                 ),
-              );
-            }),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 10, left: 10, top: 5),
+              child: Text(
+                'Find your favorite recipes by our list of categories!',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            Expanded(
+              child: GridView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  itemCount: _categories.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 0,
+                    mainAxisSpacing: 0,
+                  ),
+                  itemBuilder: (_, index) {
+                    final category = _categories[index];
+                    return CategoryRow(category: category);
+                  }),
+            ),
+          ],
+        ),
       ),
     );
   }

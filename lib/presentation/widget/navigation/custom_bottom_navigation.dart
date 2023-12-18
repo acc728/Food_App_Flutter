@@ -18,21 +18,22 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
 
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white,
-      backgroundColor: Colors.deepPurpleAccent,
+      selectedItemColor: Colors.greenAccent,
+      unselectedItemColor: Colors.greenAccent,
+      backgroundColor: Colors.black,
       currentIndex: bottomNavigationProvider.currentIndex,
       onTap: (newIndex) {
         setState(() {
           bottomNavigationProvider.updateIndex(newIndex);
         });
       },
-      elevation: 0,
+      elevation: 8,
       items: const [
         BottomNavigationBarItem(
             icon: Icon(Icons.fastfood), label: "Categories"),
         BottomNavigationBarItem(
             icon: Icon(Icons.food_bank), label: "Random Recipe"),
+        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorites"),
       ],
     );
   }

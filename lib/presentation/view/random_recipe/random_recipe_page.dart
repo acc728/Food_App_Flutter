@@ -5,6 +5,7 @@ import 'package:food_app/model/resource_state.dart';
 import 'package:food_app/presentation/view/random_recipe/viewmodel/random_recipe_view_model.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
+import 'package:food_app/presentation/widget/recipe_card/recipe_card.dart';
 
 class RandomRecipePage extends StatefulWidget {
   const RandomRecipePage({super.key});
@@ -49,18 +50,20 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-          child: Column(
-        children: [
-          Text(_randomRecipe?.strMeal ?? "N/A"),
-          Image.network(_randomRecipe?.strMealThumb ??
-              "https://static.wixstatic.com/media/bf242e_6133b4ae6a104cc2b50d70179f35efea~mv2.jpg/v1/fill/w_500,h_374,al_c,lg_1,q_80,enc_auto/food-placeholder.jpg")
-        ],
-      )),
+        child: RecipeCard(meal: _randomRecipe),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Colors.greenAccent,
         onPressed: () {
           _randomRecipeViewModel.fetchRandomRecipe();
         },
-        label: const Flexible(child: Text("New Recipe")),
+        label: const Flexible(
+            child: Text(
+          "New Recipe",
+          style: TextStyle(
+              fontWeight: FontWeight.w900, fontSize: 16, color: Colors.black),
+        )),
       ),
     );
   }
