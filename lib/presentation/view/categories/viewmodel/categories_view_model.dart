@@ -6,12 +6,12 @@ import 'package:food_app/model/resource_state.dart';
 
 typedef CategoriesState = ResourceState<List<MealCategory>>;
 
-class HomeViewModel {
+class CategoriesViewModel {
   final MealRepository _mealsRepository;
   final StreamController<CategoriesState> getMealCategoriesState =
       StreamController();
 
-  HomeViewModel({required MealRepository mealsRepository})
+  CategoriesViewModel({required MealRepository mealsRepository})
       : _mealsRepository = mealsRepository;
 
   fetchMealsCategories() {

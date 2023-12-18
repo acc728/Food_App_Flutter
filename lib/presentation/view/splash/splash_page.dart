@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/presentation/navigation/navigation_routes.dart';
-import 'package:go_router/go_router.dart';
+import 'package:food_app/presentation/view/home/home_page.dart';
 import 'package:lottie/lottie.dart';
 
 class SplashPage extends StatefulWidget {
@@ -31,7 +30,9 @@ class _SplashPageState extends State<SplashPage> {
     await Future.delayed(const Duration(seconds: 3));
 
     if (mounted) {
-      context.go(NavigationRoutes.HOME_ROUTE);
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
+        return const HomePage();
+      }));
     }
   }
 }

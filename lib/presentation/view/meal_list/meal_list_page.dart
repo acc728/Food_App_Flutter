@@ -47,11 +47,10 @@ class _MealListPageState extends State<MealListPage> {
   }
 
   @override
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Foods"),
+        title: Text(widget.category),
         centerTitle: true,
       ),
       body: SafeArea(

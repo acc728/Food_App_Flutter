@@ -28,6 +28,7 @@ class Meal {
   String? strArea;
   String? strInstructions;
   String strMealThumb;
+  String? strTags;
   String? strYoutube;
   String? strIngredient1;
   String? strIngredient2;
@@ -47,6 +48,7 @@ class Meal {
       required this.strArea,
       required this.strInstructions,
       required this.strMealThumb,
+      required this.strTags,
       required this.strYoutube,
       required this.strIngredient1,
       required this.strIngredient2,
@@ -66,6 +68,7 @@ class Meal {
       strArea: json["strArea"],
       strInstructions: json["strInstructions"],
       strMealThumb: json["strMealThumb"],
+      strTags: json["strTags"],
       strYoutube: json["strYoutube"],
       strIngredient1: json["strIngredient1"],
       strIngredient2: json["strIngredient2"],
@@ -85,6 +88,7 @@ class Meal {
         "strArea": strArea,
         "strInstructions": strInstructions,
         "strMealThumb": strMealThumb,
+        "strTags": strTags,
         "strYoutube": strYoutube,
         "strIngredient1": strIngredient1,
         "strIngredient2": strIngredient2,
