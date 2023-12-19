@@ -13,7 +13,7 @@ class RecipeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 6,
-      margin: const EdgeInsets.only(bottom: 10, top: 20, left: 15, right: 15),
+      margin: const EdgeInsets.only(bottom: 10, top: 0, left: 15, right: 15),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -25,23 +25,28 @@ class RecipeCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(12)),
-              child: CachedNetworkImage(
-                imageUrl: meal?.strMealThumb ??
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwZgTsV5FSzcygnwaRW4SePUSXSiNZCdYUhw&usqp=CAU",
-                fit: BoxFit.cover,
-                height: 300,
-              ),
-            ),
+            meal != null
+                ? ClipRRect(
+                    borderRadius:
+                        const BorderRadius.vertical(top: Radius.circular(12)),
+                    child: CachedNetworkImage(
+                      imageUrl: meal!.strMealThumb,
+                      fit: BoxFit.cover,
+                      height: 275,
+                    ),
+                  )
+                : Image.asset(
+                    'assets/images/food_placeholder.jpg',
+                    height: 200,
+                    fit: BoxFit.cover,
+                  ),
             Padding(
               padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    meal?.strMeal ?? "N/A",
+                    meal?.strMeal ?? "Meal name",
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.center,

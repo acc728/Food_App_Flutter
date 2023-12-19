@@ -5,7 +5,9 @@ import 'package:food_app/model/meal.dart';
 import 'package:food_app/model/resource_state.dart';
 import 'package:food_app/presentation/view/meal_detail/viewmodel/meal_detail_view_model.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
+import 'package:food_app/presentation/widget/ingredients_scroll_view/ingredients_scroll_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
+import 'package:food_app/presentation/widget/meal_description_card/meal_description_card.dart';
 
 class MealDetailPage extends StatefulWidget {
   const MealDetailPage({super.key, required this.id});
@@ -70,26 +72,33 @@ class _MealDetailPageState extends State<MealDetailPage> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(40),
               ),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.all(Radius.circular(40)),
-                child: CachedNetworkImage(
-                  imageUrl: _meal?.strMealThumb ??
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTwZgTsV5FSzcygnwaRW4SePUSXSiNZCdYUhw&usqp=CAU",
-                  fit: BoxFit.cover,
-                  height: 200,
-                ),
-              ),
+              child: _meal != null
+                  ? ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(40)),
+                      child: CachedNetworkImage(
+                        imageUrl: _meal!.strMealThumb,
+                        fit: BoxFit.cover,
+                        height: 200,
+                      ),
+                    )
+                  : Image.asset(
+                      'assets/images/food_placeholder.jpg',
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
             ),
             const SizedBox(height: 20),
-            Center(
-              child: Text(
-                _meal?.strMeal ?? "N/A",
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
+            if (_meal != null)
+              Center(
+                child: Text(
+                  _meal?.strMeal ?? "N/A",
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
-            ),
             if (_meal?.strTags != null)
               Center(
                 child: Text(
@@ -105,118 +114,13 @@ class _MealDetailPageState extends State<MealDetailPage> {
               indent: 20,
               endIndent: 20,
             ),
-            Card(
-              elevation: 4,
-              surfaceTintColor: Colors.greenAccent,
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  height: 160,
-                  child: Scrollbar(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const Text(
-                              "Description",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              _meal?.strInstructions ?? "Description not found",
-                              style: const TextStyle(fontSize: 14),
-                              textAlign: TextAlign.justify,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            MealDescriptionCard(
+              meal: _meal,
             ),
-            Card(
-              elevation: 4,
-              surfaceTintColor: Colors.greenAccent,
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  height: 100,
-                  child: Scrollbar(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _meal == null
-                                ? const Text("Ingredients not found")
-                                : Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Ingredients",
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 16),
-                                      ),
-                                      Row(
-                                        children: [
-                                          SingleChildScrollView(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                const SizedBox(height: 2),
-                                                Text(
-                                                    "${_meal?.strIngredient1} - ${_meal?.strMeasure1}"),
-                                                Text(
-                                                    "${_meal?.strIngredient2} - ${_meal?.strMeasure2}"),
-                                                Text(
-                                                    "${_meal?.strIngredient3} - ${_meal?.strMeasure3}"),
-                                                Text(
-                                                    "${_meal?.strIngredient4} - ${_meal?.strMeasure4}"),
-                                                Text(
-                                                    "${_meal?.strIngredient5} - ${_meal?.strMeasure5}"),
-                                              ],
-                                            ),
-                                          ),
-                                          const SizedBox(width: 10),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              const SizedBox(height: 2),
-                                              Text(
-                                                  "${_meal?.strIngredient6} - ${_meal?.strMeasure6}"),
-                                              Text(
-                                                  "${_meal?.strIngredient7} - ${_meal?.strMeasure7}"),
-                                              Text(
-                                                  "${_meal?.strIngredient8} - ${_meal?.strMeasure8}"),
-                                              Text(
-                                                  "${_meal?.strIngredient9} - ${_meal?.strMeasure9}"),
-                                              Text(
-                                                  "${_meal?.strIngredient10} - ${_meal?.strMeasure10}"),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            if (_meal != null)
+              IngredientsScrollView(
+                meal: _meal,
+              )
           ],
         ),
       ),

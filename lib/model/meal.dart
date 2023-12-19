@@ -6,18 +6,22 @@ MealsResponse mealsResponseFromMap(String str) =>
 String mealsResponseToMap(MealsResponse data) => json.encode(data.toMap());
 
 class MealsResponse {
-  List<Meal> meals;
+  List<Meal>? meals;
 
   MealsResponse({
     required this.meals,
   });
 
   factory MealsResponse.fromMap(Map<String, dynamic> json) => MealsResponse(
-        meals: List<Meal>.from(json["meals"].map((x) => Meal.fromMap(x))),
+        meals: json["meals"] == null
+            ? []
+            : List<Meal>.from(json["meals"]!.map((x) => Meal.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
-        "meals": List<dynamic>.from(meals.map((x) => x.toMap())),
+        "meals": meals == null
+            ? []
+            : List<dynamic>.from(meals!.map((x) => x.toMap())),
       };
 }
 

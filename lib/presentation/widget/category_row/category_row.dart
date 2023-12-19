@@ -38,7 +38,7 @@ class CategoryRow extends StatelessWidget {
               child: Container(
                 height: 200,
                 decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.35),
+                  color: Colors.black.withOpacity(0.3),
                 ),
               ),
             ),

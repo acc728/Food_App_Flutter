@@ -4,6 +4,7 @@ import 'package:food_app/model/meal.dart';
 import 'package:food_app/model/resource_state.dart';
 import 'package:food_app/presentation/view/random_recipe/viewmodel/random_recipe_view_model.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
+import 'package:food_app/presentation/widget/header/header_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
 import 'package:food_app/presentation/widget/positioned_background/positioned_backgroud_element.dart';
 import 'package:food_app/presentation/widget/recipe_card/recipe_card.dart';
@@ -57,44 +58,33 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
-                padding: EdgeInsets.only(top: 10, left: 10),
-                child: Text(
-                  'Random Recipe',
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w900,
-                  ),
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(left: 10, top: 5),
-                child: Text(
-                  'Save time thinking what to cook today!',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
+              const HeaderView(
+                  title: 'Random Recipe',
+                  message: 'Save time thinking what to cook today!'),
+              const Spacer(),
               RecipeCard(meal: _randomRecipe),
-              Center(
-                child: FloatingActionButton.extended(
-                  backgroundColor: Colors.greenAccent,
-                  onPressed: () {
-                    _randomRecipeViewModel.fetchRandomRecipe();
-                  },
-                  label: const Flexible(
-                      child: Text(
-                    "New Recipe",
-                    style: TextStyle(
-                        fontWeight: FontWeight.w900,
-                        fontSize: 16,
-                        color: Colors.black),
-                  )),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Center(
+                  child: FloatingActionButton.extended(
+                    icon: const Icon(Icons.refresh),
+                    backgroundColor: Colors.greenAccent,
+                    onPressed: () {
+                      _randomRecipeViewModel.fetchRandomRecipe();
+                    },
+                    label: const Flexible(
+                        child: Text(
+                      "New Recipe",
+                      style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 16,
+                          color: Colors.black),
+                    )),
+                  ),
                 ),
               ),
+              const Spacer()
             ],
           ),
         ]),

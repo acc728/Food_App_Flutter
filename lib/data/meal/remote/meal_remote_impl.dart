@@ -15,7 +15,7 @@ class MealRemoteImpl {
       final response = await _networkClient.dio
           .get(NetworkConstants.MEAL_BY_ID_PATH, queryParameters: {"i": id});
 
-      return MealsResponse.fromMap(response.data).meals[0];
+      return MealsResponse.fromMap(response.data).meals![0];
     } catch (e) {
       throw RemoteErrorMapper.getException(e);
     }
@@ -26,8 +26,8 @@ class MealRemoteImpl {
       final response = await _networkClient.dio.get(
           NetworkConstants.MEAL_BY_NAME_PATH,
           queryParameters: {"s": name});
-
-      return MealsResponse.fromMap(response.data).meals;
+      final meals = MealsResponse.fromMap(response.data).meals;
+      return meals ?? [];
     } catch (e) {
       throw RemoteErrorMapper.getException(e);
     }
@@ -48,7 +48,7 @@ class MealRemoteImpl {
       final response = await _networkClient.dio.get(
           NetworkConstants.MEAL_LIST_BY_CATEGORY_PATH,
           queryParameters: {"c": category});
-      return MealsResponse.fromMap(response.data).meals;
+      return MealsResponse.fromMap(response.data).meals!;
     } catch (e) {
       throw RemoteErrorMapper.getException(e);
     }
@@ -58,7 +58,7 @@ class MealRemoteImpl {
     try {
       final response =
           await _networkClient.dio.get(NetworkConstants.RANDOM_MEAL_PATH);
-      return MealsResponse.fromMap(response.data).meals[0];
+      return MealsResponse.fromMap(response.data).meals![0];
     } catch (e) {
       throw RemoteErrorMapper.getException(e);
     }
