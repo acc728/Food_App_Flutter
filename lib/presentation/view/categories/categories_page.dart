@@ -6,7 +6,7 @@ import 'package:food_app/presentation/view/categories/viewmodel/categories_view_
 import 'package:food_app/presentation/widget/category_row/category_row.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
-import 'package:food_app/presentation/widget/positioned_background/positiones_backgroud_element.dart';
+import 'package:food_app/presentation/widget/positioned_background/positioned_backgroud_element.dart';
 
 class CategoriesPage extends StatefulWidget {
   const CategoriesPage({super.key});
@@ -16,14 +16,15 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
-  final CategoriesViewModel _homeViewModel = inject<CategoriesViewModel>();
+  final CategoriesViewModel _categoriesViewModel =
+      inject<CategoriesViewModel>();
   List<MealCategory> _categories = [];
 
   @override
   void initState() {
     super.initState();
 
-    _homeViewModel.getMealCategoriesState.stream.listen((state) {
+    _categoriesViewModel.getMealCategoriesState.stream.listen((state) {
       switch (state.status) {
         case Status.LOADING:
           LoadingView.show(context);
@@ -37,13 +38,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
         case Status.ERROR:
           LoadingView.hide();
           ErrorView.show(context, state.exception!.toString(), () {
-            _homeViewModel.fetchMealsCategories();
+            _categoriesViewModel.fetchMealsCategories();
           });
           break;
       }
     });
 
-    _homeViewModel.fetchMealsCategories();
+    _categoriesViewModel.fetchMealsCategories();
   }
 
   @override
@@ -105,6 +106,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   void dispose() {
     super.dispose();
-    _homeViewModel.dispose();
+    _categoriesViewModel.dispose();
   }
 }

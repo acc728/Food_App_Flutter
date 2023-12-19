@@ -10,7 +10,7 @@ class MealRemoteImpl {
   MealRemoteImpl({required NetworkClient networkClient})
       : _networkClient = networkClient;
 
-  Future<Meal> getMealById(int id) async {
+  Future<Meal> getMealById(String id) async {
     try {
       final response = await _networkClient.dio
           .get(NetworkConstants.MEAL_BY_ID_PATH, queryParameters: {"i": id});

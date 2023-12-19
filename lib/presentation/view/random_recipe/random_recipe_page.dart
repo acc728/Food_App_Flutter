@@ -5,7 +5,7 @@ import 'package:food_app/model/resource_state.dart';
 import 'package:food_app/presentation/view/random_recipe/viewmodel/random_recipe_view_model.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
-import 'package:food_app/presentation/widget/positioned_background/positiones_backgroud_element.dart';
+import 'package:food_app/presentation/widget/positioned_background/positioned_backgroud_element.dart';
 import 'package:food_app/presentation/widget/recipe_card/recipe_card.dart';
 
 class RandomRecipePage extends StatefulWidget {

@@ -35,11 +35,21 @@ class Meal {
   String? strIngredient3;
   String? strIngredient4;
   String? strIngredient5;
+  String? strIngredient6;
+  String? strIngredient7;
+  String? strIngredient8;
+  String? strIngredient9;
+  String? strIngredient10;
   String? strMeasure1;
   String? strMeasure2;
   String? strMeasure3;
   String? strMeasure4;
   String? strMeasure5;
+  String? strMeasure6;
+  String? strMeasure7;
+  String? strMeasure8;
+  String? strMeasure9;
+  String? strMeasure10;
 
   Meal(
       {required this.idMeal,
@@ -55,11 +65,21 @@ class Meal {
       this.strIngredient3,
       this.strIngredient4,
       this.strIngredient5,
+      this.strIngredient6,
+      this.strIngredient7,
+      this.strIngredient8,
+      this.strIngredient9,
+      this.strIngredient10,
       this.strMeasure1,
       this.strMeasure2,
       this.strMeasure3,
       this.strMeasure4,
-      this.strMeasure5});
+      this.strMeasure5,
+      this.strMeasure6,
+      this.strMeasure7,
+      this.strMeasure8,
+      this.strMeasure9,
+      this.strMeasure10});
 
   factory Meal.fromMap(Map<String, dynamic> json) => Meal(
       idMeal: json["idMeal"],
@@ -75,11 +95,21 @@ class Meal {
       strIngredient3: json["strIngredient3"],
       strIngredient4: json["strIngredient4"],
       strIngredient5: json["strIngredient5"],
+      strIngredient6: json["strIngredient6"],
+      strIngredient7: json["strIngredient7"],
+      strIngredient8: json["strIngredient8"],
+      strIngredient9: json["strIngredient9"],
+      strIngredient10: json["strIngredient10"],
       strMeasure1: json["strMeasure1"],
       strMeasure2: json["strMeasure2"],
       strMeasure3: json["strMeasure3"],
       strMeasure4: json["strMeasure4"],
-      strMeasure5: json["strMeasure5"]);
+      strMeasure5: json["strMeasure5"],
+      strMeasure6: json["strMeasure6"],
+      strMeasure7: json["strMeasure7"],
+      strMeasure8: json["strMeasure8"],
+      strMeasure9: json["strMeasure9"],
+      strMeasure10: json["strMeasure10"]);
 
   Map<String, dynamic> toMap() => {
         "idMeal": idMeal,
@@ -95,10 +125,20 @@ class Meal {
         "strIngredient3": strIngredient3,
         "strIngredient4": strIngredient4,
         "strIngredient5": strIngredient5,
+        "strIngredient6": strIngredient6,
+        "strIngredient7": strIngredient7,
+        "strIngredient8": strIngredient8,
+        "strIngredient9": strIngredient9,
+        "strIngredient10": strIngredient10,
         "strMeasure1": strMeasure1,
         "strMeasure2": strMeasure2,
         "strMeasure3": strMeasure3,
         "strMeasure4": strMeasure4,
-        "strMeasure5": strMeasure5
+        "strMeasure5": strMeasure5,
+        "strMeasure6": strMeasure6,
+        "strMeasure7": strMeasure7,
+        "strMeasure8": strMeasure8,
+        "strMeasure9": strMeasure9,
+        "strMeasure10": strMeasure10
       };
 }

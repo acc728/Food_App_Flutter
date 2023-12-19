@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/model/meal.dart';
+import 'package:food_app/presentation/navigation/navigation_routes.dart';
+import 'package:go_router/go_router.dart';
 
 class RecipeCard extends StatelessWidget {
   const RecipeCard({super.key, required this.meal});
@@ -17,9 +19,8 @@ class RecipeCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const Text("VISTA DETALLE");
-          }));
+          context.go(NavigationRoutes.RANDOM_MEAL_DETAIL_ROUTE,
+              extra: meal?.idMeal);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -52,10 +53,18 @@ class RecipeCard extends StatelessWidget {
                   const SizedBox(height: 8),
                   SizedBox(
                     height: 160,
-                    child: SingleChildScrollView(
-                      child: Text(
-                          meal?.strInstructions ?? "Description not found",
-                          style: const TextStyle(fontSize: 14)),
+                    child: Scrollbar(
+                      thumbVisibility: true,
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 12.0),
+                          child: Text(
+                            meal?.strInstructions ?? "Description not found",
+                            style: const TextStyle(fontSize: 14),
+                            textAlign: TextAlign.justify,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ],

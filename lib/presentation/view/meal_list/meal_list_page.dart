@@ -19,6 +19,7 @@ class MealListPage extends StatefulWidget {
 class _MealListPageState extends State<MealListPage> {
   final MealListViewModel _mealListViewModel = inject<MealListViewModel>();
   List<Meal> _mealListByCategory = [];
+  String _category = "";
 
   @override
   void initState() {
@@ -45,6 +46,7 @@ class _MealListPageState extends State<MealListPage> {
     });
 
     _mealListViewModel.fetchMealListByCategory(widget.category);
+    _category = widget.category;
   }
 
   @override
@@ -54,7 +56,7 @@ class _MealListPageState extends State<MealListPage> {
         elevation: 0,
         centerTitle: true,
         title: Text(
-          widget.category,
+          _category,
           style: const TextStyle(
               fontSize: 24.0, fontWeight: FontWeight.w900, color: Colors.black),
         ),

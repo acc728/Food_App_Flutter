@@ -20,7 +20,7 @@ class MealRow extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: InkWell(
         onTap: () {
-          context.go(NavigationRoutes.RANDOM_RECIPE_ROUTE);
+          context.go(NavigationRoutes.MEAL_DETAIL_ROUTE, extra: meal.idMeal);
         },
         child: Row(
           children: [

@@ -10,9 +10,9 @@ class PositionedBackgroundElement extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        top: -250,
-        left: -200,
-        right: -200,
+        top: -300,
+        left: -100,
+        right: -100,
         child: Container(
           height: 500,
           decoration: BoxDecoration(

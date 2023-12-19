@@ -9,7 +9,7 @@ class MealDataImpl extends MealRepository {
   MealDataImpl({required MealRemoteImpl remoteImpl}) : _remoteImpl = remoteImpl;
 
   @override
-  Future<Meal> getMealById(int id) {
+  Future<Meal> getMealById(String id) {
     return _remoteImpl.getMealById(id);
   }
 
