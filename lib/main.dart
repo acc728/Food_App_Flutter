@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/presentation/navigation/navigation_routes.dart';
 
 void main() {
-  AppModules().setup(); // Inyección de dependencias - guardadas en inject
+  AppModules().setup();
   runApp(const MainApp());
 }
 
@@ -12,6 +13,10 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.greenAccent,
+    ));
+
     return MaterialApp.router(
       routerConfig: router,
     );

@@ -14,11 +14,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: widget.navigationShell,
-      bottomNavigationBar: CustomBottomNavigationBar(
-        key: widget.key,
-        navigationShell: widget.navigationShell,
+    return SafeArea(
+      child: Scaffold(
+        body: widget.navigationShell,
+        bottomNavigationBar: CustomBottomNavigationBar(
+          key: widget.key,
+          navigationShell: widget.navigationShell,
+        ),
       ),
     );
   }
