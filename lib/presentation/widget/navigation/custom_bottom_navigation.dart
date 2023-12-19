@@ -17,7 +17,6 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return NavigationBar(
       height: 75,
       indicatorColor: Colors.greenAccent,
-      //indicatorShape: const CircleBorder(),
       selectedIndex: widget.navigationShell.currentIndex,
       onDestinationSelected: (value) {
         widget.navigationShell.goBranch(value,
@@ -32,7 +31,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
         NavigationDestination(
           icon: Icon(Icons.food_bank_outlined),
           selectedIcon: Icon(Icons.food_bank),
-          label: "Random Meal",
+          label: "Find Food",
         ),
         NavigationDestination(
           icon: Icon(Icons.favorite_outline),

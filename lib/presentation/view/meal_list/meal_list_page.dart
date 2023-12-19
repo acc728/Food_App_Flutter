@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/model/meal.dart';
 import 'package:food_app/model/resource_state.dart';
+import 'package:food_app/presentation/navigation/navigation_routes.dart';
 import 'package:food_app/presentation/view/meal_list/viewmodel/meal_list_view_model.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
@@ -66,7 +67,10 @@ class _MealListPageState extends State<MealListPage> {
             itemCount: _mealListByCategory.length,
             itemBuilder: (_, index) {
               final meal = _mealListByCategory[index];
-              return MealRow(meal: meal);
+              return MealRow(
+                meal: meal,
+                route: NavigationRoutes.MEAL_DETAIL_ROUTE,
+              );
             }),
       ),
     );

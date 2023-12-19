@@ -21,7 +21,7 @@ class CustomSearchBar extends StatelessWidget {
           cursorColor: Colors.black,
           decoration: InputDecoration(
             labelText: 'Search Meals',
-            hintText: 'Search meals by name...',
+            hintText: 'Introduce the food name...',
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(20),
               borderSide: const BorderSide(color: Colors.black54),

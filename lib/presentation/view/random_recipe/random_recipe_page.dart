@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/model/meal.dart';
 import 'package:food_app/model/resource_state.dart';
+import 'package:food_app/presentation/navigation/navigation_routes.dart';
+import 'package:food_app/presentation/utils/debouncer/text_field_debouncer.dart';
 import 'package:food_app/presentation/view/random_recipe/viewmodel/random_recipe_view_model.dart';
+import 'package:food_app/presentation/widget/custom_search_bar/custom_search_bar.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/header/header_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
+import 'package:food_app/presentation/widget/meal_row/meal_row.dart';
 import 'package:food_app/presentation/widget/positioned_background/positioned_backgroud_element.dart';
 import 'package:food_app/presentation/widget/recipe_card/recipe_card.dart';
 
@@ -21,6 +25,10 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
       inject<RandomRecipeViewModel>();
   Meal? _randomRecipe;
 
+  final TextEditingController _searchController = TextEditingController();
+  List<Meal> _searchMeals = [];
+  bool searching = false;
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +41,29 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
         case Status.SUCCESS:
           LoadingView.hide();
           setState(() {
+            searching = false;
             _randomRecipe = state.data!;
+          });
+          break;
+        case Status.ERROR:
+          LoadingView.hide();
+          ErrorView.show(context, state.exception!.toString(), () {
+            _randomRecipeViewModel.fetchRandomRecipe();
+          });
+          break;
+      }
+    });
+
+    _randomRecipeViewModel.getMealsByNameState.stream.listen((state) {
+      switch (state.status) {
+        case Status.LOADING:
+          LoadingView.show(context);
+          break;
+        case Status.SUCCESS:
+          LoadingView.hide();
+          setState(() {
+            searching = true;
+            _searchMeals = state.data!;
           });
           break;
         case Status.ERROR:
@@ -50,7 +80,10 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
 
   @override
   Widget build(BuildContext context) {
+    final debouncer = TextFieldDebouncer(milliseconds: 1500, action: () {});
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Stack(children: [
           const PositionedBackgroundElement(
@@ -59,35 +92,67 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const HeaderView(
-                  title: 'Random Recipe',
+                  title: 'Find Foods',
                   message: 'Save time thinking what to cook today!'),
-              const Spacer(),
-              RecipeCard(meal: _randomRecipe),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: Center(
-                  child: FloatingActionButton.extended(
-                    icon: const Icon(Icons.refresh),
-                    backgroundColor: Colors.greenAccent,
-                    onPressed: () {
-                      _randomRecipeViewModel.fetchRandomRecipe();
-                    },
-                    label: const Flexible(
-                        child: Text(
-                      "New Recipe",
-                      style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 16,
-                          color: Colors.black),
-                    )),
-                  ),
-                ),
-              ),
-              const Spacer()
+              CustomSearchBar(
+                  searchController: _searchController,
+                  function: (text) {
+                    debouncer.run(() {
+                      text.isEmpty
+                          ? _randomRecipeViewModel.fetchRandomRecipe()
+                          : _randomRecipeViewModel.fetchMealsByName(text);
+                    });
+                  }),
+              const SizedBox(height: 4),
+              !searching
+                  ? Expanded(child: RecipeCard(meal: _randomRecipe))
+                  : _searchMeals.isNotEmpty
+                      ? Expanded(
+                          child: ListView.builder(
+                              itemCount: _searchMeals.length,
+                              itemBuilder: (_, index) {
+                                final meal = _searchMeals[index];
+                                return MealRow(
+                                  meal: meal,
+                                  route:
+                                      NavigationRoutes.RANDOM_MEAL_DETAIL_ROUTE,
+                                );
+                              }),
+                        )
+                      : Column(
+                          children: [
+                            const SizedBox(height: 70),
+                            Image.asset('assets/images/no_results.png'),
+                            const Center(
+                              child: Text(
+                                "Couldn't find any foods",
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
             ],
           ),
         ]),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        icon: const Icon(Icons.refresh),
+        backgroundColor: Colors.greenAccent,
+        onPressed: () {
+          _randomRecipeViewModel.fetchRandomRecipe();
+        },
+        label: const Flexible(
+            child: Text(
+          "New Recipe",
+          style: TextStyle(
+              fontWeight: FontWeight.w900, fontSize: 16, color: Colors.black),
+        )),
       ),
     );
   }

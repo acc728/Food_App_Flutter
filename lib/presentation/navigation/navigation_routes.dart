@@ -13,11 +13,12 @@ class NavigationRoutes {
   static const MEAL_DETAIL_ROUTE = "$MEAL_LIST_ROUTE/$_MEAL_DETAIL_PATH";
   static const RANDOM_RECIPE_ROUTE = "/random-recipe";
   static const RANDOM_MEAL_DETAIL_ROUTE =
-      "$RANDOM_RECIPE_ROUTE/$_MEAL_DETAIL_PATH";
+      "$RANDOM_RECIPE_ROUTE/$_MEAL_DETAIL_PATH2";
   static const FAVS_ROUTE = "/favorites";
 
   static const _MEAL_LIST_PATH = "meal-list";
   static const _MEAL_DETAIL_PATH = "detail";
+  static const _MEAL_DETAIL_PATH2 = "detail2";
 }
 
 final GoRouter router =
@@ -58,7 +59,7 @@ final GoRouter router =
               builder: (context, state) => const RandomRecipePage(),
               routes: [
                 GoRoute(
-                  path: NavigationRoutes._MEAL_DETAIL_PATH,
+                  path: NavigationRoutes._MEAL_DETAIL_PATH2,
                   builder: (context, state) => MealDetailPage(
                     id: state.extra as String,
                   ),
