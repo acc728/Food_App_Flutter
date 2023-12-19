@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/model/meal_category.dart';
-import 'package:food_app/presentation/view/meal_list/meal_list_page.dart';
+import 'package:food_app/presentation/navigation/navigation_routes.dart';
+import 'package:go_router/go_router.dart';
 
 class CategoryRow extends StatelessWidget {
   const CategoryRow({super.key, required this.category});
@@ -16,9 +17,8 @@ class CategoryRow extends StatelessWidget {
       margin: const EdgeInsets.all(10),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return MealListPage(category: category.strCategory);
-          }));
+          context.go(NavigationRoutes.MEAL_LIST_ROUTE,
+              extra: category.strCategory);
         },
         child: Stack(
           children: [

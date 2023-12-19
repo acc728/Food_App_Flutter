@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:food_app/presentation/provider/bottom_navigation_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
 
 class CustomBottomNavigationBar extends StatefulWidget {
-  const CustomBottomNavigationBar({super.key});
+  const CustomBottomNavigationBar({super.key, required this.navigationShell});
+
+  final StatefulNavigationShell navigationShell;
 
   @override
   State<CustomBottomNavigationBar> createState() =>
@@ -13,27 +14,29 @@ class CustomBottomNavigationBar extends StatefulWidget {
 class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   @override
   Widget build(BuildContext context) {
-    BottomNavigationProvider bottomNavigationProvider =
-        Provider.of<BottomNavigationProvider>(context);
-
-    return BottomNavigationBar(
-      type: BottomNavigationBarType.fixed,
-      selectedItemColor: Colors.greenAccent,
-      unselectedItemColor: Colors.greenAccent,
-      backgroundColor: Colors.black,
-      currentIndex: bottomNavigationProvider.currentIndex,
-      onTap: (newIndex) {
-        setState(() {
-          bottomNavigationProvider.updateIndex(newIndex);
-        });
+    return NavigationBar(
+      height: 75,
+      selectedIndex: widget.navigationShell.currentIndex,
+      onDestinationSelected: (value) {
+        widget.navigationShell.goBranch(value,
+            initialLocation: value == widget.navigationShell.currentIndex);
       },
-      elevation: 8,
-      items: const [
-        BottomNavigationBarItem(
-            icon: Icon(Icons.fastfood), label: "Categories"),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.food_bank), label: "Random Recipe"),
-        BottomNavigationBarItem(icon: Icon(Icons.favorite), label: "Favorites"),
+      destinations: const [
+        NavigationDestination(
+          icon: Icon(Icons.fastfood_outlined),
+          selectedIcon: Icon(Icons.fastfood),
+          label: "Categories",
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.food_bank_outlined),
+          selectedIcon: Icon(Icons.food_bank),
+          label: "Random Meal",
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.favorite_outline),
+          selectedIcon: Icon(Icons.favorite),
+          label: "Favorites",
+        ),
       ],
     );
   }

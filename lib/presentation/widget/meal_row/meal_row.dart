@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/model/meal.dart';
-import 'package:food_app/presentation/view/home/home_page.dart';
+import 'package:food_app/presentation/navigation/navigation_routes.dart';
+import 'package:go_router/go_router.dart';
 
 class MealRow extends StatelessWidget {
   const MealRow({super.key, required this.meal});
@@ -19,9 +20,7 @@ class MealRow extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: InkWell(
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) {
-            return const HomePage(); // Meter la navegación
-          }));
+          context.go(NavigationRoutes.RANDOM_RECIPE_ROUTE);
         },
         child: Row(
           children: [

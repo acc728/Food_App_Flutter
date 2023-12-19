@@ -50,20 +50,49 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: RecipeCard(meal: _randomRecipe),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.greenAccent,
-        onPressed: () {
-          _randomRecipeViewModel.fetchRandomRecipe();
-        },
-        label: const Flexible(
-            child: Text(
-          "New Recipe",
-          style: TextStyle(
-              fontWeight: FontWeight.w900, fontSize: 16, color: Colors.black),
-        )),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(top: 10, left: 10),
+              child: Text(
+                'Random Recipe',
+                style: TextStyle(
+                  fontSize: 24.0,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.only(left: 10, top: 5),
+              child: Text(
+                'Save time thinking what to cook today!',
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: Colors.black,
+                ),
+              ),
+            ),
+            RecipeCard(meal: _randomRecipe),
+            Center(
+              child: FloatingActionButton.extended(
+                backgroundColor: Colors.greenAccent,
+                onPressed: () {
+                  _randomRecipeViewModel.fetchRandomRecipe();
+                },
+                label: const Flexible(
+                    child: Text(
+                  "New Recipe",
+                  style: TextStyle(
+                      fontWeight: FontWeight.w900,
+                      fontSize: 16,
+                      color: Colors.black),
+                )),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
