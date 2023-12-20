@@ -1,3 +1,4 @@
+import 'package:food_app/data/meal/local/meal_local_impl.dart';
 import 'package:food_app/data/meal/remote/meal_remote_impl.dart';
 import 'package:food_app/domain/meals_repository.dart';
 import 'package:food_app/model/meal.dart';
@@ -5,8 +6,12 @@ import 'package:food_app/model/meal_category.dart';
 
 class MealDataImpl extends MealRepository {
   final MealRemoteImpl _remoteImpl;
+  final MealLocalImpl _localImpl;
 
-  MealDataImpl({required MealRemoteImpl remoteImpl}) : _remoteImpl = remoteImpl;
+  MealDataImpl(
+      {required MealRemoteImpl remoteImpl, required MealLocalImpl localImpl})
+      : _remoteImpl = remoteImpl,
+        _localImpl = localImpl;
 
   @override
   Future<Meal> getMealById(String id) {
@@ -31,5 +36,25 @@ class MealDataImpl extends MealRepository {
   @override
   Future<Meal> getRandomMeal() {
     return _remoteImpl.getRandomMeal();
+  }
+
+  @override
+  void addFavoriteMeal(Meal meal) {
+    _localImpl.addFavoriteMeal(meal);
+  }
+
+  @override
+  void deleteFavoriteMeal(Meal meal) {
+    _localImpl.deleteFavoriteMeal(meal);
+  }
+
+  @override
+  Future<List<Meal>> getFavoriteMeals() {
+    return _localImpl.getFavoriteMeals();
+  }
+
+  @override
+  Future<bool> isFavoriteMeal(Meal meal) {
+    return _localImpl.isFavoriteMeal(meal);
   }
 }

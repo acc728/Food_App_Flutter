@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/model/meal_category.dart';
 import 'package:food_app/model/resource_state.dart';
-import 'package:food_app/presentation/view/categories/viewmodel/categories_view_model.dart';
+import 'package:food_app/presentation/view/meal/viewmodel/meals_view_model.dart';
 import 'package:food_app/presentation/widget/category_row/category_row.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/header/header_view.dart';
@@ -17,8 +17,7 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
-  final CategoriesViewModel _categoriesViewModel =
-      inject<CategoriesViewModel>();
+  final MealsViewModel _categoriesViewModel = inject<MealsViewModel>();
   List<MealCategory> _categories = [];
 
   @override
@@ -51,7 +50,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBody: true,
       body: SafeArea(
+        bottom: false,
         child: Stack(
           children: [
             const PositionedBackgroundElement(
@@ -62,7 +63,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                 const HeaderView(
                     title: "Categories",
                     message: "Explore our list of categories to find foods!"),
-                const SizedBox(height: 10),
+                const SizedBox(height: 4),
                 Expanded(
                   child: GridView.builder(
                       scrollDirection: Axis.vertical,

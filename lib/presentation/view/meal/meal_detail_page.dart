@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/model/meal.dart';
 import 'package:food_app/model/resource_state.dart';
-import 'package:food_app/presentation/view/meal_detail/viewmodel/meal_detail_view_model.dart';
+import 'package:food_app/presentation/view/meal/viewmodel/meals_view_model.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/ingredients_scroll_view/ingredients_scroll_view.dart';
 import 'package:food_app/presentation/widget/loading/loading_view.dart';
 import 'package:food_app/presentation/widget/meal_description_card/meal_description_card.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class MealDetailPage extends StatefulWidget {
   const MealDetailPage({super.key, required this.id});
@@ -19,15 +20,15 @@ class MealDetailPage extends StatefulWidget {
 }
 
 class _MealDetailPageState extends State<MealDetailPage> {
-  final MealDetailViewModel _mealDetailViewModel =
-      inject<MealDetailViewModel>();
+  final MealsViewModel _mealsViewModel = inject<MealsViewModel>();
   Meal? _meal;
+  bool _isFavorite = false;
 
   @override
   void initState() {
     super.initState();
 
-    _mealDetailViewModel.getMealState.stream.listen((state) {
+    _mealsViewModel.getMealState.stream.listen((state) {
       switch (state.status) {
         case Status.LOADING:
           LoadingView.show(context);
@@ -36,36 +37,75 @@ class _MealDetailPageState extends State<MealDetailPage> {
           LoadingView.hide();
           setState(() {
             _meal = state.data!;
+            _mealsViewModel.isFavoriteMeal(_meal!);
           });
           break;
         case Status.ERROR:
           LoadingView.hide();
           ErrorView.show(context, state.exception!.toString(), () {
-            _mealDetailViewModel.fetchMealDetails(widget.id);
+            _mealsViewModel.fetchMealDetails(widget.id);
           });
           break;
       }
     });
 
-    _mealDetailViewModel.fetchMealDetails(widget.id);
+    _mealsViewModel.getMealIsFavoriteState.stream.listen((state) {
+      switch (state.status) {
+        case Status.LOADING:
+          LoadingView.show(context);
+          break;
+        case Status.SUCCESS:
+          LoadingView.hide();
+          setState(() {
+            _isFavorite = state.data!;
+          });
+          break;
+        case Status.ERROR:
+          LoadingView.hide();
+          ErrorView.show(context, state.exception!.toString(), () {
+            _mealsViewModel.fetchMealDetails(widget.id);
+          });
+          break;
+      }
+    });
+
+    _mealsViewModel.fetchMealDetails(widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        centerTitle: true,
-        title: const Text(
-          "Detail",
-          style: TextStyle(
-              fontSize: 24.0, fontWeight: FontWeight.w900, color: Colors.black),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
+    return SafeArea(
+      child: Scaffold(
+        appBar: AppBar(
+            elevation: 0,
+            centerTitle: true,
+            title: Text(
+              "Detail",
+              style: GoogleFonts.pacifico(
+                  fontSize: 28.0,
+                  color: Colors.black,
+                  fontWeight: FontWeight.w500),
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(
+                  _isFavorite ? Icons.favorite : Icons.favorite_border,
+                  size: 35,
+                ),
+                onPressed: () {
+                  if (_isFavorite) {
+                    _mealsViewModel.deleteFavoriteMeal(_meal!);
+                    setState(() {});
+                  } else {
+                    _mealsViewModel.addFavoriteMeal(_meal!);
+                    setState(() {});
+                  }
+                },
+              )
+            ]),
+        body: SingleChildScrollView(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
             Card(
               elevation: 4,
               margin: const EdgeInsets.symmetric(horizontal: 30),
@@ -74,7 +114,7 @@ class _MealDetailPageState extends State<MealDetailPage> {
               ),
               child: _meal != null
                   ? ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(40)),
+                      borderRadius: const BorderRadius.all(Radius.circular(30)),
                       child: CachedNetworkImage(
                         imageUrl: _meal!.strMealThumb,
                         fit: BoxFit.cover,
@@ -87,7 +127,7 @@ class _MealDetailPageState extends State<MealDetailPage> {
                       fit: BoxFit.cover,
                     ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 15),
             if (_meal != null)
               Center(
                 child: Text(
@@ -102,7 +142,8 @@ class _MealDetailPageState extends State<MealDetailPage> {
             if (_meal?.strTags != null)
               Center(
                 child: Text(
-                  _meal?.strTags ?? "This meals has no tags",
+                  _meal?.strTags?.replaceAll(',', ", ") ??
+                      "This meals has no tags",
                   style: const TextStyle(
                     fontSize: 16,
                   ),
@@ -120,8 +161,8 @@ class _MealDetailPageState extends State<MealDetailPage> {
             if (_meal != null)
               IngredientsScrollView(
                 meal: _meal,
-              )
-          ],
+              ),
+          ]),
         ),
       ),
     );

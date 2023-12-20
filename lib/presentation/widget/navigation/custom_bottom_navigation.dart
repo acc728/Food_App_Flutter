@@ -16,6 +16,8 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
   Widget build(BuildContext context) {
     return NavigationBar(
       height: 75,
+      elevation: 0,
+      backgroundColor: Colors.transparent,
       indicatorColor: Colors.greenAccent,
       selectedIndex: widget.navigationShell.currentIndex,
       onDestinationSelected: (value) {

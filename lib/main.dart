@@ -17,9 +17,18 @@ class MainApp extends StatelessWidget {
       statusBarColor: Colors.greenAccent,
     ));
 
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       routerConfig: router,
+      theme: ThemeData(
+          textSelectionTheme: const TextSelectionThemeData(
+              selectionColor: Colors.green,
+              selectionHandleColor: Color.fromARGB(255, 17, 87, 19))),
     );
   }
 }

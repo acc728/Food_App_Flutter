@@ -4,7 +4,7 @@ import 'package:food_app/model/meal.dart';
 import 'package:food_app/model/resource_state.dart';
 import 'package:food_app/presentation/navigation/navigation_routes.dart';
 import 'package:food_app/presentation/utils/debouncer/text_field_debouncer.dart';
-import 'package:food_app/presentation/view/random_recipe/viewmodel/random_recipe_view_model.dart';
+import 'package:food_app/presentation/view/meal/viewmodel/meals_view_model.dart';
 import 'package:food_app/presentation/widget/custom_search_bar/custom_search_bar.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/header/header_view.dart';
@@ -21,8 +21,7 @@ class RandomRecipePage extends StatefulWidget {
 }
 
 class _RandomRecipePageState extends State<RandomRecipePage> {
-  final RandomRecipeViewModel _randomRecipeViewModel =
-      inject<RandomRecipeViewModel>();
+  final MealsViewModel _randomRecipeViewModel = inject<MealsViewModel>();
   Meal? _randomRecipe;
 
   final TextEditingController _searchController = TextEditingController();
@@ -82,10 +81,10 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
   Widget build(BuildContext context) {
     final debouncer = TextFieldDebouncer(milliseconds: 1500, action: () {});
 
-    return Scaffold(
-      resizeToAvoidBottomInset: false,
-      body: SafeArea(
-        child: Stack(children: [
+    return SafeArea(
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        body: Stack(children: [
           const PositionedBackgroundElement(
               color1: Colors.greenAccent, color2: Colors.greenAccent),
           Column(
@@ -96,10 +95,12 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
                   message: 'Save time thinking what to cook today!'),
               CustomSearchBar(
                   searchController: _searchController,
-                  function: (text) {
+                  onChangedFunction: (text) {
                     debouncer.run(() {
                       text.isEmpty
-                          ? _randomRecipeViewModel.fetchRandomRecipe()
+                          ? setState(() {
+                              searching = false;
+                            })
                           : _randomRecipeViewModel.fetchMealsByName(text);
                     });
                   }),
@@ -139,20 +140,20 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
             ],
           ),
         ]),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        icon: const Icon(Icons.refresh),
-        backgroundColor: Colors.greenAccent,
-        onPressed: () {
-          _randomRecipeViewModel.fetchRandomRecipe();
-        },
-        label: const Flexible(
-            child: Text(
-          "New Recipe",
-          style: TextStyle(
-              fontWeight: FontWeight.w900, fontSize: 16, color: Colors.black),
-        )),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton.extended(
+          icon: const Icon(Icons.refresh),
+          backgroundColor: Colors.greenAccent,
+          onPressed: () {
+            _randomRecipeViewModel.fetchRandomRecipe();
+          },
+          label: const Flexible(
+              child: Text(
+            "New Recipe",
+            style: TextStyle(
+                fontWeight: FontWeight.w700, fontSize: 16, color: Colors.black),
+          )),
+        ),
       ),
     );
   }

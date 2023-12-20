@@ -16,11 +16,31 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        extendBody: true,
         resizeToAvoidBottomInset: false,
         body: widget.navigationShell,
-        bottomNavigationBar: CustomBottomNavigationBar(
-          key: widget.key,
-          navigationShell: widget.navigationShell,
+        bottomNavigationBar: Stack(
+          children: [
+            Container(
+              height: 75,
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                    Color.fromARGB(115, 255, 255, 255),
+                    Colors.white
+                  ],
+                      stops: [
+                    0,
+                    0.5
+                  ])),
+            ),
+            CustomBottomNavigationBar(
+              key: widget.key,
+              navigationShell: widget.navigationShell,
+            ),
+          ],
         ),
       ),
     );
