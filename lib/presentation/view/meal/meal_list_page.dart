@@ -19,7 +19,7 @@ class MealListPage extends StatefulWidget {
 }
 
 class _MealListPageState extends State<MealListPage> {
-  final MealsViewModel _mealListViewModel = inject<MealsViewModel>();
+  final MealsViewModel _mealsViewModel = inject<MealsViewModel>();
   List<Meal> _mealListByCategory = [];
   String _category = "";
 
@@ -27,7 +27,7 @@ class _MealListPageState extends State<MealListPage> {
   void initState() {
     super.initState();
 
-    _mealListViewModel.getMealListByCategoryState.stream.listen((state) {
+    _mealsViewModel.getMealListByCategoryState.stream.listen((state) {
       switch (state.status) {
         case Status.LOADING:
           LoadingView.show(context);
@@ -41,13 +41,13 @@ class _MealListPageState extends State<MealListPage> {
         case Status.ERROR:
           LoadingView.hide();
           ErrorView.show(context, state.exception!.toString(), () {
-            _mealListViewModel.fetchMealListByCategory(widget.category);
+            _mealsViewModel.fetchMealListByCategory(widget.category);
           });
           break;
       }
     });
 
-    _mealListViewModel.fetchMealListByCategory(widget.category);
+    _mealsViewModel.fetchMealListByCategory(widget.category);
     _category = widget.category;
   }
 
@@ -56,6 +56,8 @@ class _MealListPageState extends State<MealListPage> {
     return Scaffold(
       extendBody: true,
       appBar: AppBar(
+        backgroundColor: Colors.greenAccent,
+        surfaceTintColor: Colors.transparent,
         elevation: 0,
         centerTitle: true,
         title: Text(
@@ -79,6 +81,6 @@ class _MealListPageState extends State<MealListPage> {
   @override
   void dispose() {
     super.dispose();
-    _mealListViewModel.dispose();
+    _mealsViewModel.dispose();
   }
 }

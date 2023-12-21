@@ -21,7 +21,7 @@ class RandomRecipePage extends StatefulWidget {
 }
 
 class _RandomRecipePageState extends State<RandomRecipePage> {
-  final MealsViewModel _randomRecipeViewModel = inject<MealsViewModel>();
+  final MealsViewModel _mealsViewModel = inject<MealsViewModel>();
   Meal? _randomRecipe;
 
   final TextEditingController _searchController = TextEditingController();
@@ -32,7 +32,7 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
   void initState() {
     super.initState();
 
-    _randomRecipeViewModel.getRandomRecipeState.stream.listen((state) {
+    _mealsViewModel.getRandomRecipeState.stream.listen((state) {
       switch (state.status) {
         case Status.LOADING:
           LoadingView.show(context);
@@ -47,13 +47,13 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
         case Status.ERROR:
           LoadingView.hide();
           ErrorView.show(context, state.exception!.toString(), () {
-            _randomRecipeViewModel.fetchRandomRecipe();
+            _mealsViewModel.fetchRandomRecipe();
           });
           break;
       }
     });
 
-    _randomRecipeViewModel.getMealsByNameState.stream.listen((state) {
+    _mealsViewModel.getMealsByNameState.stream.listen((state) {
       switch (state.status) {
         case Status.LOADING:
           LoadingView.show(context);
@@ -68,13 +68,13 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
         case Status.ERROR:
           LoadingView.hide();
           ErrorView.show(context, state.exception!.toString(), () {
-            _randomRecipeViewModel.fetchRandomRecipe();
+            _mealsViewModel.fetchRandomRecipe();
           });
           break;
       }
     });
 
-    _randomRecipeViewModel.fetchRandomRecipe();
+    _mealsViewModel.fetchRandomRecipe();
   }
 
   @override
@@ -101,7 +101,7 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
                           ? setState(() {
                               searching = false;
                             })
-                          : _randomRecipeViewModel.fetchMealsByName(text);
+                          : _mealsViewModel.fetchMealsByName(text);
                     });
                   }),
               const SizedBox(height: 4),
@@ -145,7 +145,7 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
           icon: const Icon(Icons.refresh),
           backgroundColor: Colors.greenAccent,
           onPressed: () {
-            _randomRecipeViewModel.fetchRandomRecipe();
+            _mealsViewModel.fetchRandomRecipe();
           },
           label: const Flexible(
               child: Text(
@@ -161,6 +161,6 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
   @override
   void dispose() {
     super.dispose();
-    _randomRecipeViewModel.dispose();
+    _mealsViewModel.dispose();
   }
 }

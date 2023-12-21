@@ -11,21 +11,24 @@ import 'package:food_app/presentation/widget/meal_row/meal_row.dart';
 import 'package:food_app/presentation/widget/positioned_background/positioned_backgroud_element.dart';
 
 class FavoriteMealsPage extends StatefulWidget {
-  const FavoriteMealsPage({super.key});
+  const FavoriteMealsPage(
+      {super.key /*, required this.favoriteMealListProvider*/});
+
+  //final FavoriteMealListProvider favoriteMealListProvider;
 
   @override
   State<FavoriteMealsPage> createState() => _FavoriteMealsPageState();
 }
 
 class _FavoriteMealsPageState extends State<FavoriteMealsPage> {
-  final MealsViewModel _favoriteListViewModel = inject<MealsViewModel>();
+  final MealsViewModel _mealsViewModel = inject<MealsViewModel>();
   List<Meal> _favoriteMealsList = [];
 
   @override
   void initState() {
     super.initState();
 
-    _favoriteListViewModel.getFavoriteMealListState.stream.listen((state) {
+    _mealsViewModel.getFavoriteMealListState.stream.listen((state) {
       switch (state.status) {
         case Status.LOADING:
           LoadingView.show(context);
@@ -34,22 +37,27 @@ class _FavoriteMealsPageState extends State<FavoriteMealsPage> {
           LoadingView.hide();
           setState(() {
             _favoriteMealsList = state.data!;
+            /* widget.favoriteMealListProvider
+                .updateFavoriteList(_favoriteMealsList); */
           });
           break;
         case Status.ERROR:
           LoadingView.hide();
           ErrorView.show(context, state.exception!.toString(), () {
-            _favoriteListViewModel.fetchFavoriteMealList();
+            _mealsViewModel.fetchFavoriteMealList();
           });
           break;
       }
     });
 
-    _favoriteListViewModel.fetchFavoriteMealList();
+    _mealsViewModel.fetchFavoriteMealList();
   }
 
   @override
   Widget build(BuildContext context) {
+/*     FavoriteMealListProvider favoriteMealListProvider =
+        Provider.of<FavoriteMealListProvider>(context); */
+
     return Scaffold(
       extendBody: true,
       body: SafeArea(
@@ -68,7 +76,11 @@ class _FavoriteMealsPageState extends State<FavoriteMealsPage> {
                 Expanded(
                   child: ListView.builder(
                       itemCount: _favoriteMealsList.length,
+                      /* itemCount:
+                          favoriteMealListProvider.favoriteMealsList.length, */
                       itemBuilder: (_, index) {
+                        /* final meal =
+                            favoriteMealListProvider.favoriteMealsList[index]; */
                         final meal = _favoriteMealsList[index];
                         return Dismissible(
                           key: Key(meal.idMeal.toString()),
@@ -90,7 +102,7 @@ class _FavoriteMealsPageState extends State<FavoriteMealsPage> {
                             ),
                           ),
                           onDismissed: (_) {
-                            _favoriteListViewModel.deleteFavoriteMeal(meal);
+                            _mealsViewModel.deleteFavoriteMeal(meal);
                           },
                           child: MealRow(
                             meal: meal,
@@ -105,5 +117,11 @@ class _FavoriteMealsPageState extends State<FavoriteMealsPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _mealsViewModel.dispose();
   }
 }

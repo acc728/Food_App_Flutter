@@ -11,10 +11,13 @@ import 'package:food_app/presentation/widget/meal_description_card/meal_descript
 import 'package:google_fonts/google_fonts.dart';
 
 class MealDetailPage extends StatefulWidget {
-  const MealDetailPage({super.key, required this.id});
+  const MealDetailPage(
+      {super.key,
+      required this.id /* , required this.favoriteMealListProvider */});
 
   final String id;
-
+/*   final FavoriteMealListProvider favoriteMealListProvider;
+ */
   @override
   State<MealDetailPage> createState() => _MealDetailPageState();
 }
@@ -94,11 +97,17 @@ class _MealDetailPageState extends State<MealDetailPage> {
                 ),
                 onPressed: () {
                   if (_isFavorite) {
-                    _mealsViewModel.deleteFavoriteMeal(_meal!);
-                    setState(() {});
+                    setState(() {
+                      _mealsViewModel.deleteFavoriteMeal(_meal!);
+/*                       widget.favoriteMealListProvider.updateItemDeleted(_meal!);
+ */
+                    });
                   } else {
-                    _mealsViewModel.addFavoriteMeal(_meal!);
-                    setState(() {});
+                    setState(() {
+                      _mealsViewModel.addFavoriteMeal(_meal!);
+/*                       widget.favoriteMealListProvider.updateItemAdded(_meal!);
+ */
+                    });
                   }
                 },
               )
@@ -166,5 +175,11 @@ class _MealDetailPageState extends State<MealDetailPage> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _mealsViewModel.dispose();
   }
 }

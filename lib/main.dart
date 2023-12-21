@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/presentation/navigation/navigation_routes.dart';
+import 'package:food_app/presentation/provider/favorite_meal_list_provider.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   AppModules().setup();
@@ -22,13 +24,18 @@ class MainApp extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: router,
-      theme: ThemeData(
-          textSelectionTheme: const TextSelectionThemeData(
-              selectionColor: Colors.green,
-              selectionHandleColor: Color.fromARGB(255, 17, 87, 19))),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => FavoriteMealListProvider()),
+      ],
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: router,
+        theme: ThemeData(
+            textSelectionTheme: const TextSelectionThemeData(
+                selectionColor: Colors.green,
+                selectionHandleColor: Color.fromARGB(255, 17, 87, 19))),
+      ),
     );
   }
 }

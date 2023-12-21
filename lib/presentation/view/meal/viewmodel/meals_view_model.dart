@@ -124,5 +124,6 @@ class MealsViewModel {
     getMealListByCategoryState.close();
     getRandomRecipeState.close();
     getMealIsFavoriteState.close();
+    getMealsByNameState.close();
   }
 }

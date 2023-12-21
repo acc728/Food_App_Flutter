@@ -17,14 +17,14 @@ class CategoriesPage extends StatefulWidget {
 }
 
 class _CategoriesPageState extends State<CategoriesPage> {
-  final MealsViewModel _categoriesViewModel = inject<MealsViewModel>();
+  final MealsViewModel _mealsViewModel = inject<MealsViewModel>();
   List<MealCategory> _categories = [];
 
   @override
   void initState() {
     super.initState();
 
-    _categoriesViewModel.getMealCategoriesState.stream.listen((state) {
+    _mealsViewModel.getMealCategoriesState.stream.listen((state) {
       switch (state.status) {
         case Status.LOADING:
           LoadingView.show(context);
@@ -38,13 +38,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
         case Status.ERROR:
           LoadingView.hide();
           ErrorView.show(context, state.exception!.toString(), () {
-            _categoriesViewModel.fetchMealsCategories();
+            _mealsViewModel.fetchMealsCategories();
           });
           break;
       }
     });
 
-    _categoriesViewModel.fetchMealsCategories();
+    _mealsViewModel.fetchMealsCategories();
   }
 
   @override
@@ -91,6 +91,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
   @override
   void dispose() {
     super.dispose();
-    _categoriesViewModel.dispose();
+    _mealsViewModel.dispose();
   }
 }
