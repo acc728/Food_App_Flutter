@@ -31,11 +31,17 @@ class RecipeCard extends StatelessWidget {
                   ? ClipRRect(
                       borderRadius:
                           const BorderRadius.vertical(top: Radius.circular(12)),
-                      child: CachedNetworkImage(
-                        imageUrl: meal!.strMealThumb,
-                        fit: BoxFit.cover,
-                        height: 240,
-                      ),
+                      child: meal!.strMealThumb != null
+                          ? CachedNetworkImage(
+                              imageUrl: meal!.strMealThumb!,
+                              fit: BoxFit.cover,
+                              height: 240,
+                            )
+                          : Image.asset(
+                              'assets/images/food_placeholder.jpg',
+                              fit: BoxFit.cover,
+                              height: 240,
+                            ),
                     )
                   : Image.asset(
                       'assets/images/food_placeholder.jpg',

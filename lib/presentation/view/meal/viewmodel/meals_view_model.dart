@@ -89,8 +89,8 @@ class MealsViewModel extends BaseViewModel {
             (error) => getMealsByNameState.add(ResourceState.error(error)));
   }
 
-  deleteFavoriteMeal(Meal meal) {
-    _mealsRepository.deleteFavoriteMeal(meal);
+  deleteFavoriteMeal(Meal meal) async {
+    await _mealsRepository.deleteFavoriteMeal(meal);
     getMealIsFavoriteState.add(ResourceState.success(false));
     favoriteMealListProvider.updateMealDeletedToFavorites(meal);
 
@@ -115,8 +115,8 @@ class MealsViewModel extends BaseViewModel {
             (error) => getMealIsFavoriteState.add(ResourceState.error(error)));
   }
 
-  addFavoriteMeal(Meal meal) {
-    _mealsRepository.addFavoriteMeal(meal);
+  addFavoriteMeal(Meal meal) async {
+    await _mealsRepository.addFavoriteMeal(meal);
 
     getMealIsFavoriteState.add(ResourceState.success(true));
     favoriteMealListProvider.updateMealAddedToFavorites(meal);

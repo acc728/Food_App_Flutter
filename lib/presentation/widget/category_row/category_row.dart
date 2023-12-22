@@ -25,7 +25,7 @@ class CategoryRow extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: SizedBox(
-                height: 180,
+                height: 190,
                 child: CachedNetworkImage(
                   imageUrl: category.strCategoryThumb,
                   errorWidget: (context, url, error) => const Icon(Icons.error),
@@ -36,7 +36,7 @@ class CategoryRow extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
               child: Container(
-                height: 200,
+                height: 190,
                 decoration: BoxDecoration(
                   color: Colors.black.withOpacity(0.3),
                 ),

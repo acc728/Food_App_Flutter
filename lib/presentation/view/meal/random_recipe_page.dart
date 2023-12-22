@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/model/meal.dart';
 import 'package:food_app/presentation/model/resource_state.dart';
@@ -86,7 +87,7 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
         resizeToAvoidBottomInset: false,
         body: Stack(children: [
           const PositionedBackgroundElement(
-              color1: Colors.greenAccent, color2: Colors.greenAccent),
+              color1: Colors.greenAccent, color2: Color(0xFF69F0AE)),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -107,22 +108,27 @@ class _RandomRecipePageState extends State<RandomRecipePage> {
               const SizedBox(height: 4),
               !searching
                   ? Expanded(child: RecipeCard(meal: _randomRecipe))
+                      .animate()
+                      .slideX()
                   : _searchMeals.isNotEmpty
                       ? Expanded(
                           child: ListView.builder(
-                              itemCount: _searchMeals.length,
-                              itemBuilder: (_, index) {
-                                final meal = _searchMeals[index];
-                                return MealRow(
-                                  meal: meal,
-                                  route:
-                                      NavigationRoutes.RANDOM_MEAL_DETAIL_ROUTE,
-                                );
-                              }),
+                                  itemCount: _searchMeals.length,
+                                  itemBuilder: (_, index) {
+                                    final meal = _searchMeals[index];
+                                    return MealRow(
+                                      meal: meal,
+                                      route: NavigationRoutes
+                                          .RANDOM_MEAL_DETAIL_ROUTE,
+                                    );
+                                  })
+                              .animate()
+                              .slideX(
+                                  duration: const Duration(milliseconds: 200)),
                         )
                       : Column(
                           children: [
-                            const SizedBox(height: 70),
+                            const SizedBox(height: 120),
                             Image.asset('assets/images/no_results.png'),
                             const Center(
                               child: Text(

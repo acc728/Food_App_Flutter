@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/presentation/model/resource_state.dart';
 import 'package:food_app/presentation/navigation/navigation_routes.dart';
@@ -71,42 +72,69 @@ class _FavoriteMealsPageState extends State<FavoriteMealsPage> {
                     message: "Taste your favorite foods again!"),
                 const SizedBox(height: 4),
                 Expanded(
-                  child: ListView.builder(
-                      itemCount: _favoriteMealProvider.favoriteMealsList.length,
-                      itemBuilder: (_, index) {
-                        final meal =
-                            _favoriteMealProvider.favoriteMealsList[index];
-                        return Dismissible(
-                          key: Key(meal.idMeal.toString()),
-                          direction: DismissDirection.endToStart,
-                          background: Container(
-                            color: Colors.red,
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Icon(
-                                  Icons.delete_outline,
-                                  color: Colors.white,
-                                ),
-                                Icon(
-                                  Icons.delete_outline,
-                                  color: Colors.white,
-                                ),
-                              ],
+                  child: _favoriteMealProvider.favoriteMealsList.isNotEmpty
+                      ? ListView.builder(
+                              itemCount: _favoriteMealProvider
+                                  .favoriteMealsList.length,
+                              itemBuilder: (_, index) {
+                                final meal = _favoriteMealProvider
+                                    .favoriteMealsList[index];
+                                return Dismissible(
+                                  key: Key(meal.idMeal.toString()),
+                                  direction: DismissDirection.endToStart,
+                                  background: Container(
+                                    color: Colors.red,
+                                    child: const Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Icon(
+                                          Icons.delete_outline,
+                                          color: Colors.white,
+                                        ),
+                                        Icon(
+                                          Icons.delete_outline,
+                                          color: Colors.white,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  onDismissed: (_) {
+                                    setState(() {
+                                      _mealsViewModel.deleteFavoriteMeal(meal);
+                                      _favoriteMealProvider
+                                          .updateIsFavoriteMeal(false);
+                                    });
+                                  },
+                                  child: MealRow(
+                                    meal: meal,
+                                    route:
+                                        NavigationRoutes.FAVORITES_DETAIL_ROUTE,
+                                  ),
+                                );
+                              })
+                          .animate()
+                          .slideX(duration: const Duration(milliseconds: 200))
+                      : Column(
+                          children: [
+                            const SizedBox(height: 120),
+                            Image.asset(
+                              'assets/images/no_favorite_food.png',
+                              height: 350,
                             ),
-                          ),
-                          onDismissed: (_) {
-                            setState(() {
-                              _mealsViewModel.deleteFavoriteMeal(meal);
-                              _favoriteMealProvider.updateIsFavoriteMeal(false);
-                            });
-                          },
-                          child: MealRow(
-                            meal: meal,
-                            route: NavigationRoutes.FAVORITES_DETAIL_ROUTE,
-                          ),
-                        );
-                      }),
+                            const Center(
+                              child: Text(
+                                "Add some foods to favorite!",
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
                 )
               ],
             ),

@@ -82,6 +82,7 @@ class _MealDetailPageState extends State<MealDetailPage> {
       child: Scaffold(
         appBar: AppBar(
             elevation: 0,
+            surfaceTintColor: Colors.transparent,
             centerTitle: true,
             title: Text(
               "Detail",
@@ -123,11 +124,14 @@ class _MealDetailPageState extends State<MealDetailPage> {
               child: _meal != null
                   ? ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(30)),
-                      child: CachedNetworkImage(
-                        imageUrl: _meal!.strMealThumb,
-                        fit: BoxFit.cover,
-                        height: 200,
-                      ),
+                      child: _meal!.strMealThumb != null
+                          ? CachedNetworkImage(
+                              imageUrl: _meal!.strMealThumb!,
+                              height: 200,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset('assets/images/food_placeholder.jpg',
+                              height: 200, fit: BoxFit.cover),
                     )
                   : Image.asset(
                       'assets/images/food_placeholder.jpg',

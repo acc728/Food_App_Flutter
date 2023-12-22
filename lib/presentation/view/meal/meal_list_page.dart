@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/model/meal.dart';
 import 'package:food_app/presentation/model/resource_state.dart';
@@ -74,7 +75,7 @@ class _MealListPageState extends State<MealListPage> {
               meal: meal,
               route: NavigationRoutes.MEAL_DETAIL_ROUTE,
             );
-          }),
+          }).animate().slideX(duration: const Duration(milliseconds: 200)),
     );
   }
 

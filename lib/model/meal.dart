@@ -26,12 +26,12 @@ class MealsResponse {
 }
 
 class Meal {
-  String idMeal;
-  String strMeal;
+  String? idMeal;
+  String? strMeal;
   String? strCategory;
   String? strArea;
   String? strInstructions;
-  String strMealThumb;
+  String? strMealThumb;
   String? strTags;
   String? strYoutube;
   String? strSource;

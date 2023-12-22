@@ -26,17 +26,20 @@ class MealRow extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(12)),
-              child: CachedNetworkImage(
-                imageUrl: meal.strMealThumb,
-                height: 150,
-                width: 150,
-                fit: BoxFit.fill,
-              ),
+              child: meal.strMealThumb != null
+                  ? CachedNetworkImage(
+                      imageUrl: meal.strMealThumb!,
+                      height: 150,
+                      width: 150,
+                      fit: BoxFit.fill,
+                    )
+                  : Image.asset('assets/images/food_placeholder.jpg',
+                      height: 150, width: 150, fit: BoxFit.fill),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                meal.strMeal,
+                meal.strMeal!,
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                     fontSize: 18,
