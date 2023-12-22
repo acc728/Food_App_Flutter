@@ -4,6 +4,7 @@ import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/domain/meals_repository.dart';
 import 'package:food_app/model/meal.dart';
 import 'package:food_app/model/meal_category.dart';
+import 'package:food_app/presentation/base/base_view_model.dart';
 import 'package:food_app/presentation/model/resource_state.dart';
 import 'package:food_app/presentation/provider/favorite_meal_provider.dart';
 
@@ -12,7 +13,7 @@ typedef MealListState = ResourceState<List<Meal>>;
 typedef MealState = ResourceState<Meal>;
 typedef MealDetailState = ResourceState<Meal>;
 
-class MealsViewModel {
+class MealsViewModel extends BaseViewModel {
   final MealRepository _mealsRepository;
   final FavoriteMealProvider favoriteMealListProvider =
       inject<FavoriteMealProvider>();
@@ -123,6 +124,7 @@ class MealsViewModel {
     fetchFavoriteMealList();
   }
 
+  @override
   void dispose() {
     getMealCategoriesState.close();
     getFavoriteMealListState.close();
