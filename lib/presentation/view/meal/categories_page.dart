@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/model/meal_category.dart';
-import 'package:food_app/model/resource_state.dart';
+import 'package:food_app/presentation/model/resource_state.dart';
 import 'package:food_app/presentation/view/meal/viewmodel/meals_view_model.dart';
 import 'package:food_app/presentation/widget/category_row/category_row.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';

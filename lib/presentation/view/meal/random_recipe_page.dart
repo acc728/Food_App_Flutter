@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/model/meal.dart';
-import 'package:food_app/model/resource_state.dart';
+import 'package:food_app/presentation/model/resource_state.dart';
 import 'package:food_app/presentation/navigation/navigation_routes.dart';
 import 'package:food_app/presentation/utils/debouncer/text_field_debouncer.dart';
 import 'package:food_app/presentation/view/meal/viewmodel/meals_view_model.dart';

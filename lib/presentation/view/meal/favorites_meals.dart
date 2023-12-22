@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:food_app/di/app_modules.dart';
-import 'package:food_app/model/meal.dart';
-import 'package:food_app/model/resource_state.dart';
+import 'package:food_app/presentation/model/resource_state.dart';
 import 'package:food_app/presentation/navigation/navigation_routes.dart';
+import 'package:food_app/presentation/provider/favorite_meal_provider.dart';
 import 'package:food_app/presentation/view/meal/viewmodel/meals_view_model.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/header/header_view.dart';
@@ -11,10 +11,7 @@ import 'package:food_app/presentation/widget/meal_row/meal_row.dart';
 import 'package:food_app/presentation/widget/positioned_background/positioned_backgroud_element.dart';
 
 class FavoriteMealsPage extends StatefulWidget {
-  const FavoriteMealsPage(
-      {super.key /*, required this.favoriteMealListProvider*/});
-
-  //final FavoriteMealListProvider favoriteMealListProvider;
+  const FavoriteMealsPage({super.key});
 
   @override
   State<FavoriteMealsPage> createState() => _FavoriteMealsPageState();
@@ -22,11 +19,16 @@ class FavoriteMealsPage extends StatefulWidget {
 
 class _FavoriteMealsPageState extends State<FavoriteMealsPage> {
   final MealsViewModel _mealsViewModel = inject<MealsViewModel>();
-  List<Meal> _favoriteMealsList = [];
+  final FavoriteMealProvider _favoriteMealProvider =
+      inject<FavoriteMealProvider>();
 
   @override
   void initState() {
     super.initState();
+
+    _favoriteMealProvider.addListener(() {
+      setState(() {});
+    });
 
     _mealsViewModel.getFavoriteMealListState.stream.listen((state) {
       switch (state.status) {
@@ -36,9 +38,7 @@ class _FavoriteMealsPageState extends State<FavoriteMealsPage> {
         case Status.SUCCESS:
           LoadingView.hide();
           setState(() {
-            _favoriteMealsList = state.data!;
-            /* widget.favoriteMealListProvider
-                .updateFavoriteList(_favoriteMealsList); */
+            _favoriteMealProvider.updateFavoriteList(state.data!);
           });
           break;
         case Status.ERROR:
@@ -55,9 +55,6 @@ class _FavoriteMealsPageState extends State<FavoriteMealsPage> {
 
   @override
   Widget build(BuildContext context) {
-/*     FavoriteMealListProvider favoriteMealListProvider =
-        Provider.of<FavoriteMealListProvider>(context); */
-
     return Scaffold(
       extendBody: true,
       body: SafeArea(
@@ -75,13 +72,10 @@ class _FavoriteMealsPageState extends State<FavoriteMealsPage> {
                 const SizedBox(height: 4),
                 Expanded(
                   child: ListView.builder(
-                      itemCount: _favoriteMealsList.length,
-                      /* itemCount:
-                          favoriteMealListProvider.favoriteMealsList.length, */
+                      itemCount: _favoriteMealProvider.favoriteMealsList.length,
                       itemBuilder: (_, index) {
-                        /* final meal =
-                            favoriteMealListProvider.favoriteMealsList[index]; */
-                        final meal = _favoriteMealsList[index];
+                        final meal =
+                            _favoriteMealProvider.favoriteMealsList[index];
                         return Dismissible(
                           key: Key(meal.idMeal.toString()),
                           direction: DismissDirection.endToStart,
@@ -102,7 +96,10 @@ class _FavoriteMealsPageState extends State<FavoriteMealsPage> {
                             ),
                           ),
                           onDismissed: (_) {
-                            _mealsViewModel.deleteFavoriteMeal(meal);
+                            setState(() {
+                              _mealsViewModel.deleteFavoriteMeal(meal);
+                              _favoriteMealProvider.updateIsFavoriteMeal(false);
+                            });
                           },
                           child: MealRow(
                             meal: meal,

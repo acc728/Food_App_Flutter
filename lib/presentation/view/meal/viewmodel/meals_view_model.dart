@@ -1,9 +1,11 @@
 import 'dart:async';
 
+import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/domain/meals_repository.dart';
 import 'package:food_app/model/meal.dart';
 import 'package:food_app/model/meal_category.dart';
-import 'package:food_app/model/resource_state.dart';
+import 'package:food_app/presentation/model/resource_state.dart';
+import 'package:food_app/presentation/provider/favorite_meal_provider.dart';
 
 typedef CategoriesState = ResourceState<List<MealCategory>>;
 typedef MealListState = ResourceState<List<Meal>>;
@@ -12,6 +14,8 @@ typedef MealDetailState = ResourceState<Meal>;
 
 class MealsViewModel {
   final MealRepository _mealsRepository;
+  final FavoriteMealProvider favoriteMealListProvider =
+      inject<FavoriteMealProvider>();
 
   final StreamController<CategoriesState> getMealCategoriesState =
       StreamController();
@@ -87,6 +91,7 @@ class MealsViewModel {
   deleteFavoriteMeal(Meal meal) {
     _mealsRepository.deleteFavoriteMeal(meal);
     getMealIsFavoriteState.add(ResourceState.success(false));
+    favoriteMealListProvider.updateMealDeletedToFavorites(meal);
 
     fetchFavoriteMealList();
   }
@@ -113,6 +118,7 @@ class MealsViewModel {
     _mealsRepository.addFavoriteMeal(meal);
 
     getMealIsFavoriteState.add(ResourceState.success(true));
+    favoriteMealListProvider.updateMealAddedToFavorites(meal);
 
     fetchFavoriteMealList();
   }

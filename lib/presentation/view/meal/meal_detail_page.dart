@@ -2,7 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/di/app_modules.dart';
 import 'package:food_app/model/meal.dart';
-import 'package:food_app/model/resource_state.dart';
+import 'package:food_app/presentation/model/resource_state.dart';
+import 'package:food_app/presentation/provider/favorite_meal_provider.dart';
 import 'package:food_app/presentation/view/meal/viewmodel/meals_view_model.dart';
 import 'package:food_app/presentation/widget/error/error_view.dart';
 import 'package:food_app/presentation/widget/ingredients_scroll_view/ingredients_scroll_view.dart';
@@ -11,25 +12,25 @@ import 'package:food_app/presentation/widget/meal_description_card/meal_descript
 import 'package:google_fonts/google_fonts.dart';
 
 class MealDetailPage extends StatefulWidget {
-  const MealDetailPage(
-      {super.key,
-      required this.id /* , required this.favoriteMealListProvider */});
+  const MealDetailPage({super.key, required this.id});
 
   final String id;
-/*   final FavoriteMealListProvider favoriteMealListProvider;
- */
   @override
   State<MealDetailPage> createState() => _MealDetailPageState();
 }
 
 class _MealDetailPageState extends State<MealDetailPage> {
   final MealsViewModel _mealsViewModel = inject<MealsViewModel>();
+  final FavoriteMealProvider _mealProvider = inject<FavoriteMealProvider>();
   Meal? _meal;
-  bool _isFavorite = false;
 
   @override
   void initState() {
     super.initState();
+
+    _mealProvider.addListener(() {
+      if (mounted) setState(() {});
+    });
 
     _mealsViewModel.getMealState.stream.listen((state) {
       switch (state.status) {
@@ -60,7 +61,7 @@ class _MealDetailPageState extends State<MealDetailPage> {
         case Status.SUCCESS:
           LoadingView.hide();
           setState(() {
-            _isFavorite = state.data!;
+            _mealProvider.updateIsFavoriteMeal(state.data!);
           });
           break;
         case Status.ERROR:
@@ -92,21 +93,19 @@ class _MealDetailPageState extends State<MealDetailPage> {
             actions: [
               IconButton(
                 icon: Icon(
-                  _isFavorite ? Icons.favorite : Icons.favorite_border,
+                  _mealProvider.isFavoriteMeal
+                      ? Icons.favorite
+                      : Icons.favorite_border,
                   size: 35,
                 ),
                 onPressed: () {
-                  if (_isFavorite) {
+                  if (_mealProvider.isFavoriteMeal) {
                     setState(() {
                       _mealsViewModel.deleteFavoriteMeal(_meal!);
-/*                       widget.favoriteMealListProvider.updateItemDeleted(_meal!);
- */
                     });
                   } else {
                     setState(() {
                       _mealsViewModel.addFavoriteMeal(_meal!);
-/*                       widget.favoriteMealListProvider.updateItemAdded(_meal!);
- */
                     });
                   }
                 },

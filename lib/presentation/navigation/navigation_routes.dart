@@ -24,9 +24,6 @@ class NavigationRoutes {
   static const _MEAL_DETAIL_FAVS_PATH = "detail-fav";
 }
 
-/* final FavoriteMealListProvider favoriteMealListProvider =
-    FavoriteMealListProvider();
- */
 final GoRouter router =
     GoRouter(initialLocation: NavigationRoutes.SPLASH_ROUTE, routes: [
   GoRoute(
@@ -51,11 +48,8 @@ final GoRouter router =
                   routes: [
                     GoRoute(
                       path: NavigationRoutes._MEAL_DETAIL_MEAL_PATH,
-                      builder: (context, state) => MealDetailPage(
-                        id: state.extra as String,
-/*                         favoriteMealListProvider: favoriteMealListProvider,
- */
-                      ),
+                      builder: (context, state) =>
+                          MealDetailPage(id: state.extra as String),
                     )
                   ])
             ],
@@ -70,8 +64,6 @@ final GoRouter router =
                   path: NavigationRoutes._MEAL_DETAIL_RECIPE_PATH,
                   builder: (context, state) => MealDetailPage(
                     id: state.extra as String,
-/*                     favoriteMealListProvider: favoriteMealListProvider,
- */
                   ),
                 )
               ])
@@ -79,16 +71,12 @@ final GoRouter router =
         StatefulShellBranch(routes: [
           GoRoute(
               path: NavigationRoutes.FAVS_ROUTE,
-              builder: (context, state) => const FavoriteMealsPage(
-                  //favoriteMealListProvider: favoriteMealListProvider,
-                  ),
+              builder: (context, state) => const FavoriteMealsPage(),
               routes: [
                 GoRoute(
                   path: NavigationRoutes._MEAL_DETAIL_FAVS_PATH,
                   builder: (context, state) => MealDetailPage(
                     id: state.extra as String,
-/*                     favoriteMealListProvider: favoriteMealListProvider,
- */
                   ),
                 )
               ])
